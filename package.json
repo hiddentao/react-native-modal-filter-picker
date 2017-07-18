@@ -1,0 +1,38 @@
+{
+  "name": "react-native-modal-filter-picker",
+  "version": "1.0.0",
+  "description": "Cross-platform modal picker for React Native which supports keyword filtering, custom rendering, etc",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react-native": ">= 0.40.0",
+    "react": ">= 15.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiddentao/react-native-modal-filter-picker.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "react-native",
+    "react-component",
+    "ios",
+    "android",
+    "dropdown",
+    "popover",
+    "select",
+    "modal",
+    "picker",
+    "filter",
+    "render"
+  ],
+  "author": "Ramesh Nair <ram@hiddentao.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiddentao/react-native-modal-filter-picker/issues"
+  },
+  "homepage": "https://github.com/hiddentao/react-native-modal-filter-picker#readme"
+}
