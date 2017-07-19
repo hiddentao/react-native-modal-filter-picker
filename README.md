@@ -44,27 +44,22 @@ export default class App extends Component {
       {
         key: 'kenya',
         label: 'Kenya',
-        searchKey: 'Africa',
       },
       {
         key: 'uganda',
         label: 'Uganda',
-        searchKey: 'Africa',
       },
       {
         key: 'libya',
         label: 'Libya',
-        searchKey: 'Africa',
       },
       {
         key: 'morocco',
         label: 'Morocco',
-        searchKey: 'Africa',
       },
       {
         key: 'estonia',
         label: 'Estonia',
-        searchKey: 'Europe',
       },
     ];
 
@@ -139,6 +134,65 @@ In addition, the following styling props (each of which must be an `Object` cons
 | `cancelButtonStyle` | Style for the cancel button button face |
 | `cancelButtonTextStyle` | Style for the cancel button text |
 | `titleTextStyle` | Style for the title text |
+
+## Advanced filtering
+
+By default the filter input field allows you to filter by the option `label`
+that's displayed on the screen.
+
+But you can also attach a `searchKey` attribute to
+each option for the filtering algorithm to use. For example, we can allow the
+user to filter by continent as
+well as country name, even though we don't display the continent name:
+
+```js
+render() {
+  const { visible } = this.state;
+
+  const options = [
+    {
+      key: 'kenya',
+      label: 'Kenya',
+      searchKey: 'Africa',
+    },
+    {
+      key: 'uganda',
+      label: 'Uganda',
+      searchKey: 'Africa',
+    },
+    {
+      key: 'libya',
+      label: 'Libya',
+      searchKey: 'Africa',
+    },
+    {
+      key: 'japan',
+      label: 'Japan',
+      searchKey: 'Asia',
+    },
+    {
+      key: 'estonia',
+      label: 'Estonia',
+      searchKey: 'Europe',
+    },
+  ];
+
+  return (
+    <View style={styles.container}>
+      <ModalFilterPicker
+        onSelect={this.onSelect}
+        onCancel={this.onCancel}
+        options={options}
+      />
+    </View>
+  );
+}
+```
+
+If you run the above example, you will be able to type `africa` into the filter
+input field to see all the countries within Africa.
+
+_Note: Filtering is case-insensitive_
 
 ## License
 

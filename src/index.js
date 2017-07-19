@@ -18,14 +18,12 @@ export default class ModalFilterPicker extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    const newState = {}
-
     if ((!this.props.visible && newProps.visible) || (this.props.options !== newProps.options)) {
-      newState.filter = ''
-      newState.ds = this.state.ds.cloneWithRows(newProps.options)
+      this.setState({
+        filter: '',
+        ds: this.state.ds.cloneWithRows(newProps.options),
+      })
     }
-
-    this.setState(newState)
   }
 
   render () {
@@ -40,10 +38,14 @@ export default class ModalFilterPicker extends Component {
       modal
     } = this.props
 
+    const renderedTitle = (!title) ? null : (
+      <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text>
+    )
+
     return (
       <Modal {...modal} visible={visible}>
         <View style={overlayStyle || styles.overlay}>
-          { title ? <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text> : null }
+          {renderedTitle}
           {(renderList || this.renderList)()}
           <View style={cancelContainerStyle || styles.cancelContainer}>
             {(renderCancelButton || this.renderCancelButton)()}
@@ -134,7 +136,7 @@ export default class ModalFilterPicker extends Component {
       return renderOption(rowData, key === selectedOption)
     } else {
       return (
-        <TouchableOpacity activeOpacity={0.6}
+        <TouchableOpacity activeOpacity={0.7}
           style={style}
           onPress={() => this.props.onSelect(key)}
         >
@@ -153,7 +155,7 @@ export default class ModalFilterPicker extends Component {
 
     return (
       <TouchableOpacity onPress={this.props.onCancel}
-        activeOpacity={0.6}
+        activeOpacity={0.7}
         style={cancelButtonStyle || styles.cancelButton}
       >
         <Text style={cancelButtonTextStyle || styles.cancelButtonText}>{cancelButtonText}</Text>
