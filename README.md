@@ -1,5 +1,9 @@
 # react-native-modal-filter-picker
 
+[![npm](https://img.shields.io/npm/v/react-native-modal-filter-picker.svg?maxAge=2592000)](https://www.npmjs.com/package/react-native-modal-filter-picker)
+[![Join the chat at https://discord.gg/bYt4tWB](https://img.shields.io/badge/discord-join%20chat-738bd7.svg?style=flat-square)](https://discord.gg/bYt4tWB)
+[![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/hiddentao)
+
 ![Demo](https://github.com/hiddentao/react-native-modal-filter-picker/raw/master/demo.gif "Demo")
 
 A cross-platform (iOS, Android) modal picker for React Native.
