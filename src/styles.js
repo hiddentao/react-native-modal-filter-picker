@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
 
@@ -20,8 +20,7 @@ const optionTextStyle = {
   fontSize: 22
 }
 
-export default {
-  // $outline: 1,
+export default StyleSheet.create({
   overlay: {
     position: 'absolute',
     top: 0,
@@ -115,4 +114,4 @@ export default {
     fontStyle: 'italic',
     fontSize: 22
   }
-}
+})
