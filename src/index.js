@@ -198,10 +198,17 @@ ModalFilterPicker.propTypes = {
   renderOption: PropTypes.func,
   renderCancelButton: PropTypes.func,
   renderList: PropTypes.func,
+  filterTextInputContainerStyle: PropTypes.any,
+  filterTextInputStyle: PropTypes.any,
+  cancelContainerStyle: PropTypes.any,
+  cancelButtonStyle: PropTypes.any,
+  cancelButtonTextStyle: PropTypes.any,
+  titleTextStyle: PropTypes.any,
+  overlayStyle: PropTypes.any,
+  listContainerStyle: PropTypes.any,
 }
 
 ModalFilterPicker.defaultProps = {
-  title: 'Select options',
   placeholderText: 'Filter...',
   placeholderTextColor: '#ccc',
   androidUnderlineColor: 'rgba(0,0,0,0)',
