@@ -1,14 +1,14 @@
 {
   "name": "react-native-modal-filter-picker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cross-platform modal picker for React Native which supports keyword filtering, custom rendering, etc",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "react-native": ">= 0.40.0",
-    "react": ">= 15.0.0"
+    "react-native": "^0.40.0",
+    "react": "^15.0.0"
   },
   "repository": {
     "type": "git",
