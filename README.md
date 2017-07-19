@@ -114,7 +114,7 @@ The following functionality props can be passed to the component:
 | `cancelButtonText` | `String` | `"Cancel"` | Cancel button text |
 | `title` | `String` | `null` | Title text which appears above options list |
 | `noResultsText` | `String` | `"No matches"` | Text to show when there are no results for filter |
-| `visible` | `Boolean` | `true` | Whether to show modal or not |
+| `visible` | `Boolean` | `true` | Whether to show modal or not. This allows you to control when the picker is shown and/or hidden. |
 | `showFilter` | `Boolean` | `true` | Whether to show filter text field field or not |
 | `modal` | `Object` | `null` | Options to pass to native `Modal` component |
 | `selectedOption` | `String` | `null` | The currently selected option, to visually differentiate it from others |
