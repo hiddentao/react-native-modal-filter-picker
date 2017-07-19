@@ -196,4 +196,4 @@ _Note: Filtering is case-insensitive_
 
 ## License
 
-MIT
+[MIT](https://github.com/hiddentao/react-native-modal-filter-picker/raw/master/LICENSE.md)
