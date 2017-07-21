@@ -16,6 +16,7 @@ Features:
 * Built-in search filter for long lists
 * Uses `ListView` for performance
 * Compatible with React Native 0.40+
+* Successfully used in production apps
 
 ## Installation
 
