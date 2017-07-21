@@ -95,7 +95,7 @@ export default class ModalFilterPicker extends Component {
 
     const { ds } = this.state
 
-    if (ds.getRowCount()) {
+    if (1 > ds.getRowCount()) {
       return (
         <ListView
           dataSource={ds.cloneWithRows([{ key: '_none' }])}
