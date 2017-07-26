@@ -90,7 +90,8 @@ export default class ModalFilterPicker extends Component {
 
   renderOptionList = () => {
     const {
-      noResultsText
+      noResultsText,
+      listViewProps,
     } = this.props
 
     const { ds } = this.state
@@ -98,6 +99,8 @@ export default class ModalFilterPicker extends Component {
     if (1 > ds.getRowCount()) {
       return (
         <ListView
+          enableEmptySections={false}
+          {...listViewProps}
           dataSource={ds.cloneWithRows([{ key: '_none' }])}
           renderRow={() => (
             <View style={styles.noResults}>
@@ -109,6 +112,8 @@ export default class ModalFilterPicker extends Component {
     } else {
       return (
         <ListView
+          enableEmptySections={false}
+          {...listViewProps}
           dataSource={ds}
           renderRow={this.renderOption}
         />
@@ -200,6 +205,7 @@ ModalFilterPicker.propTypes = {
   renderOption: PropTypes.func,
   renderCancelButton: PropTypes.func,
   renderList: PropTypes.func,
+  listViewProps: PropTypes.object,
   filterTextInputContainerStyle: PropTypes.any,
   filterTextInputStyle: PropTypes.any,
   cancelContainerStyle: PropTypes.any,

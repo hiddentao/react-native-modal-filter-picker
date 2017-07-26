@@ -122,6 +122,7 @@ The following functionality props can be passed to the component:
 | `showFilter` | `Boolean` | `true` | Whether to show filter text field field or not |
 | `modal` | `Object` | `null` | Options to pass to native `Modal` component |
 | `selectedOption` | `String` | `null` | The currently selected option, to visually differentiate it from others |
+| `listViewProps` | `Object` | `null` | Properties to pass to the rendered `ListView` |
 | `renderOption` | `function (option, isSelected) {}` | `null` | Custom option renderer |
 | `renderList` | `function () {}` | `null` | Custom option list renderer |
 | `renderCancelButton` | `function () {}` | `null` | Custom cancel button renderer |
