@@ -14,8 +14,9 @@ Features:
 * Default styling works well
 * Extensively customizable styling and rendering
 * Built-in search filter for long lists
-* Uses `ListView` for performance
+* Uses React Native `ListView` for lazy-loading and high performance
 * Compatible with React Native 0.40+
+* Successfully used in production apps
 
 ## Installation
 
