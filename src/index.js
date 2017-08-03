@@ -125,7 +125,8 @@ export default class ModalFilterPicker extends Component {
     const {
       selectedOption,
       renderOption,
-        optionTextStyle
+        optionTextStyle,
+      selectedOptionTextStyle
     } = this.props
 
     const { key, label } = rowData
@@ -135,7 +136,7 @@ export default class ModalFilterPicker extends Component {
 
     if (key === selectedOption) {
       style = styles.selectedOptionStyle
-      textStyle = optionTextStyle||styles.selectedOptionTextStyle
+      textStyle = selectedOptionTextStyle ||styles.selectedOptionTextStyle
     }
 
     if (renderOption) {
@@ -215,7 +216,8 @@ ModalFilterPicker.propTypes = {
   titleTextStyle: PropTypes.any,
   overlayStyle: PropTypes.any,
   listContainerStyle: PropTypes.any,
-    optionTextStyle:PropTypes.any
+    optionTextStyle:PropTypes.any,
+  selectedOptionTextStyle:PropType.any
 }
 
 ModalFilterPicker.defaultProps = {
