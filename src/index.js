@@ -216,8 +216,8 @@ ModalFilterPicker.propTypes = {
   titleTextStyle: PropTypes.any,
   overlayStyle: PropTypes.any,
   listContainerStyle: PropTypes.any,
-    optionTextStyle:PropTypes.any,
-  selectedOptionTextStyle:PropType.any
+  optionTextStyle:PropTypes.any,
+  selectedOptionTextStyle:PropTypes.any,
 }
 
 ModalFilterPicker.defaultProps = {
