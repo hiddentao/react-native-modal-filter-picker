@@ -127,6 +127,7 @@ The following functionality props can be passed to the component:
 | `renderOption` | `function (option, isSelected) {}` | `null` | Custom option renderer |
 | `renderList` | `function () {}` | `null` | Custom option list renderer |
 | `renderCancelButton` | `function () {}` | `null` | Custom cancel button renderer |
+| `autoFocus` | `Boolean` | `false` | If true, focuses the input on componentDidMount. |
 
 In addition, the following styling props (each of which must be an `Object` consisting of styles) can be passed in:
 

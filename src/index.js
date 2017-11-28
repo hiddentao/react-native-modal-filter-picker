@@ -73,6 +73,7 @@ export default class ModalFilterPicker extends Component {
           onChangeText={this.onFilterChange}
           autoCorrect={false}
           blurOnSubmit={true}
+          autoFocus={this.props.autoFocus}
           autoCapitalize="none"
           underlineColorAndroid={androidUnderlineColor}
           placeholderTextColor={placeholderTextColor}
