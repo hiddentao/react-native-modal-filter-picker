@@ -1,6 +1,6 @@
 {
   "name": "react-native-modal-filter-picker",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Cross-platform modal picker for React Native which supports keyword filtering, custom rendering, etc",
   "main": "src/index.js",
   "scripts": {
