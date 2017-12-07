@@ -128,6 +128,12 @@ The following functionality props can be passed to the component:
 | `renderList` | `function () {}` | `null` | Custom option list renderer |
 | `renderCancelButton` | `function () {}` | `null` | Custom cancel button renderer |
 | `autoFocus` | `Boolean` | `false` | If true, focuses the input on componentDidMount. |
+| `keyboardShouldPersistTaps` | `enum(`never`,`always`,`handle`)` | `never` | Determines when the keyboard should stay visible after a tap.
+
+keyboardShouldPersistTaps
+'never' (the default), tapping outside of the focused text input when the keyboard is up dismisses the keyboard. When this happens, children won't receive the tap.
+'always', the keyboard will not dismiss automatically, and the scroll view will not catch taps, but children of the scroll view can catch taps.
+'handled', the keyboard will not dismiss automatically when the tap was handled by a children, (or captured by an ancestor). |
 
 In addition, the following styling props (each of which must be an `Object` consisting of styles) can be passed in:
 
