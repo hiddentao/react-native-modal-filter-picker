@@ -114,6 +114,7 @@ export default class ModalFilterPicker extends Component {
       return (
         <ListView
           enableEmptySections={false}
+          keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps?this.props.keyboardShouldPersistTaps:'never'}
           {...listViewProps}
           dataSource={ds}
           renderRow={this.renderOption}
