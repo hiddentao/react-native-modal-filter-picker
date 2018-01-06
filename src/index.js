@@ -44,7 +44,7 @@ export default class ModalFilterPicker extends Component {
     )
 
     return (
-      <Modal {...modal} visible={visible} supportedOrientations={['portrait', 'landscape']}>
+      <Modal {...modal} visible={visible} onRequestClose={this.props.onCancel} supportedOrientations={['portrait', 'landscape']}>
         <View style={overlayStyle || styles.overlay}>
           {renderedTitle}
           {(renderList || this.renderList)()}
