@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, View, ListView, TouchableOpacity, Text, TextInput } from 'react-native'
+import { Modal, View, FlatList, TouchableOpacity, Text, TextInput } from 'react-native'
 
 
 import styles from './styles'
@@ -12,9 +12,7 @@ export default class ModalFilterPicker extends Component {
 
     this.state = {
       filter: '',
-      ds: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1.key !== r2.key
-      }).cloneWithRows(props.options)
+      ds: options
     }
   }
 
@@ -22,7 +20,7 @@ export default class ModalFilterPicker extends Component {
     if ((!this.props.visible && newProps.visible) || (this.props.options !== newProps.options)) {
       this.setState({
         filter: '',
-        ds: this.state.ds.cloneWithRows(newProps.options),
+        ds: newProps.options,
       })
     }
   }
@@ -34,6 +32,7 @@ export default class ModalFilterPicker extends Component {
       overlayStyle,
       cancelContainerStyle,
       renderList,
+      keyExtractor,
       renderCancelButton,
       visible,
       modal,
@@ -64,8 +63,8 @@ export default class ModalFilterPicker extends Component {
       placeholderText,
       placeholderTextColor,
       filterTextInputContainerStyle,
-      filterTextInputStyle
-    } = this.props
+      filterTextInputStyle,
+    } = this.props;
 
     const filter = (!showFilter) ? null : (
       <View style={filterTextInputContainerStyle || styles.filterTextInputContainer}>
@@ -93,18 +92,19 @@ export default class ModalFilterPicker extends Component {
   renderOptionList = () => {
     const {
       noResultsText,
-      listViewProps,
+      flatListViewProps,
+        keyExtractor,
     } = this.props
 
     const { ds } = this.state
 
-    if (1 > ds.getRowCount()) {
+    if (!ds.length) {
       return (
-        <ListView
-          enableEmptySections={false}
-          {...listViewProps}
-          dataSource={ds.cloneWithRows([{ key: '_none' }])}
-          renderRow={() => (
+        <FlatList
+          data={ds}
+          keyExtractor={keyExtractor||this.keyExtractor}
+          {...flatListViewProps}
+          renderItem={() => (
             <View style={styles.noResults}>
               <Text style={styles.noResultsText}>{noResultsText}</Text>
             </View>
@@ -113,17 +113,17 @@ export default class ModalFilterPicker extends Component {
       )
     } else {
       return (
-        <ListView
-          enableEmptySections={false}
-          {...listViewProps}
-          dataSource={ds}
-          renderRow={this.renderOption}
+        <FlatList
+          keyExtractor={keyExtractor||this.keyExtractor}
+          {...flatListViewProps}
+          data={ds}
+          renderItem={this.renderOption}
         />
       )
     }
   }
 
-  renderOption = (rowData) => {
+  renderOption = ({item}) => {
     const {
       selectedOption,
       renderOption,
@@ -131,7 +131,7 @@ export default class ModalFilterPicker extends Component {
       selectedOptionTextStyle
     } = this.props
 
-    const { key, label } = rowData
+    const { key, label } = item;
 
     let style = styles.optionStyle
     let textStyle = optionTextStyle||styles.optionTextStyle
@@ -142,7 +142,7 @@ export default class ModalFilterPicker extends Component {
     }
 
     if (renderOption) {
-      return renderOption(rowData, key === selectedOption)
+      return renderOption(item, key === selectedOption)
     } else {
       return (
         <TouchableOpacity activeOpacity={0.7}
@@ -154,6 +154,8 @@ export default class ModalFilterPicker extends Component {
       )
     }
   }
+
+  keyExtractor = (item, index) => item.id;
 
   renderCancelButton = () => {
     const {
@@ -187,7 +189,7 @@ export default class ModalFilterPicker extends Component {
 
     this.setState({
       filter: text.toLowerCase(),
-      ds: this.state.ds.cloneWithRows(filtered)
+      ds: filtered
     })
   }
 }
@@ -209,7 +211,7 @@ ModalFilterPicker.propTypes = {
   renderOption: PropTypes.func,
   renderCancelButton: PropTypes.func,
   renderList: PropTypes.func,
-  listViewProps: PropTypes.object,
+  flatListViewProps: PropTypes.object,
   filterTextInputContainerStyle: PropTypes.any,
   filterTextInputStyle: PropTypes.any,
   cancelContainerStyle: PropTypes.any,
