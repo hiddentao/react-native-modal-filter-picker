@@ -12,7 +12,8 @@ export default class ModalFilterPicker extends Component {
 
     this.state = {
       filter: '',
-      ds: props.options
+      ds: props.options,
+      visible:props.visible
     }
   }
 
@@ -21,6 +22,7 @@ export default class ModalFilterPicker extends Component {
       this.setState({
         filter: '',
         ds: newProps.options,
+        visible:newProps.visible,
       })
     }
   }
@@ -32,9 +34,7 @@ export default class ModalFilterPicker extends Component {
       overlayStyle,
       cancelContainerStyle,
       renderList,
-      keyExtractor,
       renderCancelButton,
-      visible,
       modal,
     } = this.props
 
@@ -43,7 +43,8 @@ export default class ModalFilterPicker extends Component {
     )
 
     return (
-      <Modal {...modal} visible={visible} supportedOrientations={['portrait', 'landscape']}>
+      <Modal onRequestClose={this.onRequestClose} {...modal} visible={this.state.visible}
+             supportedOrientations={['portrait', 'landscape']}>
         <View style={overlayStyle || styles.overlay}>
           {renderedTitle}
           {(renderList || this.renderList)()}
@@ -172,6 +173,13 @@ export default class ModalFilterPicker extends Component {
         <Text style={cancelButtonTextStyle || styles.cancelButtonText}>{cancelButtonText}</Text>
       </TouchableOpacity>
     )
+  }
+
+  onRequestClose=()=>{
+      this.setState({
+          filter: '',
+          visible: false
+      })
   }
 
   onFilterChange = (text) => {
