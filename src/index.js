@@ -155,7 +155,7 @@ export default class ModalFilterPicker extends Component {
     }
   }
 
-  keyExtractor = (item, index) => item.id;
+  keyExtractor = (item, index) => index;
 
   renderCancelButton = () => {
     const {
