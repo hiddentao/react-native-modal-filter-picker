@@ -147,7 +147,7 @@ export default class ModalFilterPicker extends Component {
       return (
         <TouchableOpacity activeOpacity={0.7}
           style={style}
-          onPress={() => this.props.onSelect(key)}
+          onPress={() => this.props.onSelect(item)}
         >
           <Text style={textStyle}>{label}</Text>
         </TouchableOpacity>
