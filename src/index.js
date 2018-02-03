@@ -12,7 +12,7 @@ export default class ModalFilterPicker extends Component {
 
     this.state = {
       filter: '',
-      ds: options
+      ds: props.options
     }
   }
 
