@@ -176,10 +176,7 @@ export default class ModalFilterPicker extends Component {
   }
 
   onRequestClose=()=>{
-      this.setState({
-          filter: '',
-          visible: false
-      })
+      this.props.onCancel()
   }
 
   onFilterChange = (text) => {
