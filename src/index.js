@@ -13,16 +13,14 @@ export default class ModalFilterPicker extends Component {
     this.state = {
       filter: '',
       ds: props.options,
-      visible:props.visible
     }
   }
 
   componentWillReceiveProps (newProps) {
-    if ((this.state.visible !== newProps.visible) || (this.props.options !== newProps.options)) {
+    if ((!this.props.visible && newProps.visible) || (this.props.options !== newProps.options)) {
       this.setState({
         filter: '',
         ds: newProps.options,
-        visible:newProps.visible,
       })
     }
   }
@@ -36,6 +34,8 @@ export default class ModalFilterPicker extends Component {
       renderList,
       renderCancelButton,
       modal,
+      visible,
+      onCancel,
     } = this.props
 
     const renderedTitle = (!title) ? null : (
@@ -43,7 +43,7 @@ export default class ModalFilterPicker extends Component {
     )
 
     return (
-      <Modal onRequestClose={this.onRequestClose} {...modal} visible={this.state.visible}
+      <Modal onRequestClose={onCancel} {...modal} visible={visible}
              supportedOrientations={['portrait', 'landscape']}>
         <View style={overlayStyle || styles.overlay}>
           {renderedTitle}
@@ -175,9 +175,6 @@ export default class ModalFilterPicker extends Component {
     )
   }
 
-  onRequestClose=()=>{
-      this.props.onCancel()
-  }
 
   onFilterChange = (text) => {
     const { options } = this.props
