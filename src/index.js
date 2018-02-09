@@ -8,7 +8,7 @@ import styles from './styles'
 
 export default class ModalFilterPicker extends Component {
   constructor (props, ctx) {
-    super(props, ctx)
+    super(props, ctx);
 
     this.state = {
       filter: '',
@@ -36,11 +36,11 @@ export default class ModalFilterPicker extends Component {
       modal,
       visible,
       onCancel,
-    } = this.props
+    } = this.props;
 
     const renderedTitle = (!title) ? null : (
       <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text>
-    )
+    );
 
     return (
       <Modal onRequestClose={onCancel} {...modal} visible={visible}
@@ -65,6 +65,7 @@ export default class ModalFilterPicker extends Component {
       placeholderTextColor,
       filterTextInputContainerStyle,
       filterTextInputStyle,
+      autoFocus,
     } = this.props;
 
     const filter = (!showFilter) ? null : (
@@ -73,14 +74,14 @@ export default class ModalFilterPicker extends Component {
           onChangeText={this.onFilterChange}
           autoCorrect={false}
           blurOnSubmit={true}
-          autoFocus={this.props.autoFocus}
+          autoFocus={autoFocus}
           autoCapitalize="none"
           underlineColorAndroid={androidUnderlineColor}
           placeholderTextColor={placeholderTextColor}
           placeholder={placeholderText}
           style={filterTextInputStyle || styles.filterTextInput} />
       </View>
-    )
+    );
 
     return (
       <View style={listContainerStyle || styles.listContainer}>
@@ -88,16 +89,16 @@ export default class ModalFilterPicker extends Component {
         {this.renderOptionList()}
       </View>
     )
-  }
+  };
 
   renderOptionList = () => {
     const {
       noResultsText,
       flatListViewProps,
         keyExtractor,
-    } = this.props
+    } = this.props;
 
-    const { ds } = this.state
+    const { ds } = this.state;
 
     if (!ds.length) {
       return (
@@ -122,7 +123,7 @@ export default class ModalFilterPicker extends Component {
         />
       )
     }
-  }
+  };
 
   renderOption = ({item}) => {
     const {
@@ -130,15 +131,15 @@ export default class ModalFilterPicker extends Component {
       renderOption,
         optionTextStyle,
       selectedOptionTextStyle
-    } = this.props
+    } = this.props;
 
     const { key, label } = item;
 
-    let style = styles.optionStyle
-    let textStyle = optionTextStyle||styles.optionTextStyle
+    let style = styles.optionStyle;
+    let textStyle = optionTextStyle||styles.optionTextStyle;
 
     if (key === selectedOption) {
-      style = styles.selectedOptionStyle
+      style = styles.selectedOptionStyle;
       textStyle = selectedOptionTextStyle ||styles.selectedOptionTextStyle
     }
 
@@ -154,7 +155,7 @@ export default class ModalFilterPicker extends Component {
         </TouchableOpacity>
       )
     }
-  }
+  };
 
   keyExtractor = (item, index) => index;
 
@@ -163,7 +164,7 @@ export default class ModalFilterPicker extends Component {
       cancelButtonStyle,
       cancelButtonTextStyle,
       cancelButtonText
-    } = this.props
+    } = this.props;
 
     return (
       <TouchableOpacity onPress={this.props.onCancel}
@@ -173,7 +174,7 @@ export default class ModalFilterPicker extends Component {
         <Text style={cancelButtonTextStyle || styles.cancelButtonText}>{cancelButtonText}</Text>
       </TouchableOpacity>
     )
-  }
+  };
 
 
   onFilterChange = (text) => {
@@ -187,7 +188,7 @@ export default class ModalFilterPicker extends Component {
       : options.filter(({ searchKey, label, key }) => (
         0 <= label.toLowerCase().indexOf(filter) ||
           (searchKey && 0 <= searchKey.toLowerCase().indexOf(filter))
-      ))
+      ));
 
     this.setState({
       filter: text.toLowerCase(),
@@ -224,7 +225,7 @@ ModalFilterPicker.propTypes = {
   listContainerStyle: PropTypes.any,
   optionTextStyle:PropTypes.any,
   selectedOptionTextStyle:PropTypes.any,
-}
+};
 
 ModalFilterPicker.defaultProps = {
   placeholderText: 'Filter...',
@@ -234,4 +235,4 @@ ModalFilterPicker.defaultProps = {
   noResultsText: 'No matches',
   visible: true,
   showFilter: true,
-}
+};
