@@ -37,6 +37,7 @@ export default class ModalFilterPicker extends Component {
       renderCancelButton,
       visible,
       modal,
+      onCancel
     } = this.props
 
     const renderedTitle = (!title) ? null : (
@@ -44,7 +45,12 @@ export default class ModalFilterPicker extends Component {
     )
 
     return (
-      <Modal {...modal} visible={visible} supportedOrientations={['portrait', 'landscape']}>
+      <Modal
+        onRequestClose={onCancel}
+        {...modal}
+        visible={visible}
+        supportedOrientations={['portrait', 'landscape']}
+      >
         <View style={overlayStyle || styles.overlay}>
           {renderedTitle}
           {(renderList || this.renderList)()}
