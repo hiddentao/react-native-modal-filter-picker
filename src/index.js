@@ -92,6 +92,7 @@ export default class ModalFilterPicker extends Component {
     const {
       noResultsText,
       listViewProps,
+      keyboardShouldPersistTaps
     } = this.props
 
     const { ds } = this.state
@@ -116,6 +117,7 @@ export default class ModalFilterPicker extends Component {
           {...listViewProps}
           dataSource={ds}
           renderRow={this.renderOption}
+          keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         />
       )
     }
@@ -218,6 +220,7 @@ ModalFilterPicker.propTypes = {
   listContainerStyle: PropTypes.any,
   optionTextStyle:PropTypes.any,
   selectedOptionTextStyle:PropTypes.any,
+  keyboardShouldPersistTaps: PropTypes.string
 }
 
 ModalFilterPicker.defaultProps = {
@@ -228,4 +231,5 @@ ModalFilterPicker.defaultProps = {
   noResultsText: 'No matches',
   visible: true,
   showFilter: true,
+  keyboardShouldPersistTaps: 'never'
 }

@@ -127,6 +127,7 @@ The following functionality props can be passed to the component:
 | `renderOption` | `function (option, isSelected) {}` | `null` | Custom option renderer |
 | `renderList` | `function () {}` | `null` | Custom option list renderer |
 | `renderCancelButton` | `function () {}` | `null` | Custom cancel button renderer |
+| `keyboardShouldPersistTaps` | `never`/`always`/`handle` | `never` | Determines when the keyboard should stay visible after a tap. If `never`, tapping outside of the focused text input when the keyboard is up dismisses the keyboard. When this happens, children won't receive the tap. If `always`, the keyboard will not dismiss automatically, and the scroll view will not catch taps, but children of the scroll view can catch taps. If `handled`, the keyboard will not dismiss automatically when the tap was handled by a children, (or captured by an ancestor). |
 
 In addition, the following styling props (each of which must be an `Object` consisting of styles) can be passed in:
 
