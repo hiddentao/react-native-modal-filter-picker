@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Modal, View, ListView, TouchableOpacity, Text, TextInput } from 'react-native'
 
 
@@ -58,6 +59,7 @@ export default class ModalFilterPicker extends Component {
   renderList = () => {
     const {
       showFilter,
+      autoFocus,
       listContainerStyle,
       androidUnderlineColor,
       placeholderText,
@@ -72,6 +74,7 @@ export default class ModalFilterPicker extends Component {
           onChangeText={this.onFilterChange}
           autoCorrect={false}
           blurOnSubmit={true}
+          autoFocus={autoFocus}
           autoCapitalize="none"
           underlineColorAndroid={androidUnderlineColor}
           placeholderTextColor={placeholderTextColor}
