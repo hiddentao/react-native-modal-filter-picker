@@ -136,7 +136,7 @@ export default class ModalFilterPicker extends Component {
     const {
       selectedOption,
       renderOption,
-        optionTextStyle,
+      optionTextStyle,
       selectedOptionTextStyle
     } = this.props
 
