@@ -142,6 +142,7 @@ In addition, the following styling props (each of which must be an `Object` cons
 | `cancelButtonStyle` | Style for the cancel button button face |
 | `cancelButtonTextStyle` | Style for the cancel button text |
 | `titleTextStyle` | Style for the title text |
+| `optionTextStyle` | Style for the option text |
 
 ## Advanced filtering
 
