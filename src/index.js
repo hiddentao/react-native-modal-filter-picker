@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, View, ListView, TouchableOpacity, Text, TextInput } from 'react-native'
+import {
+  Modal,
+  View,
+  ListView,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native'
 
 
 import styles from './styles'
@@ -51,13 +60,17 @@ export default class ModalFilterPicker extends Component {
         visible={visible}
         supportedOrientations={['portrait', 'landscape']}
       >
-        <View style={overlayStyle || styles.overlay}>
-          {renderedTitle}
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={overlayStyle || styles.overlay}
+          enabled={Platform.OS === 'ios'}
+        >
+          <View>{renderedTitle}</View>
           {(renderList || this.renderList)()}
           <View style={cancelContainerStyle || styles.cancelContainer}>
             {(renderCancelButton || this.renderCancelButton)()}
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     )
   }
