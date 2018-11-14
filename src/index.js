@@ -182,7 +182,7 @@ export default class ModalFilterPicker extends Component {
   }
 
   onFilterChange = (text) => {
-    const { options } = this.props
+    const { options, onChangeText } = this.props
 
     const filter = text.toLowerCase()
 
@@ -198,6 +198,7 @@ export default class ModalFilterPicker extends Component {
       filter: text.toLowerCase(),
       ds: this.state.ds.cloneWithRows(filtered)
     })
+    onChangeText ? onChangeText(text) : '';
   }
 }
 
@@ -229,7 +230,8 @@ ModalFilterPicker.propTypes = {
   listContainerStyle: PropTypes.any,
   optionTextStyle:PropTypes.any,
   selectedOptionTextStyle:PropTypes.any,
-  keyboardShouldPersistTaps: PropTypes.string
+  keyboardShouldPersistTaps: PropTypes.string,
+  onChangeText: PropTypes.any
 }
 
 ModalFilterPicker.defaultProps = {
