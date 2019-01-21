@@ -27,6 +27,10 @@ export default class ModalFilterPicker extends Component {
     }
   }
 
+  componentDidMount() {
+    this.onFilterChange(this.props.value ? this.props.value : '');
+  }
+
   componentWillReceiveProps (newProps) {
     if ((!this.props.visible && newProps.visible) || (this.props.options !== newProps.options)) {
       this.setState({
@@ -84,7 +88,8 @@ export default class ModalFilterPicker extends Component {
       placeholderText,
       placeholderTextColor,
       filterTextInputContainerStyle,
-      filterTextInputStyle
+      filterTextInputStyle,
+      value
     } = this.props
 
     const filter = (!showFilter) ? null : (
@@ -98,6 +103,7 @@ export default class ModalFilterPicker extends Component {
           underlineColorAndroid={androidUnderlineColor}
           placeholderTextColor={placeholderTextColor}
           placeholder={placeholderText}
+          value={value ? value : null}
           style={filterTextInputStyle || styles.filterTextInput} />
       </View>
     )
@@ -195,7 +201,7 @@ export default class ModalFilterPicker extends Component {
   }
 
   onFilterChange = (text) => {
-    const { options } = this.props
+    const { options, onChangeText } = this.props
 
     const filter = text.toLowerCase()
 
@@ -211,6 +217,7 @@ export default class ModalFilterPicker extends Component {
       filter: text.toLowerCase(),
       ds: this.state.ds.cloneWithRows(filtered)
     })
+    onChangeText ? onChangeText(text) : '';
   }
 }
 
@@ -242,7 +249,9 @@ ModalFilterPicker.propTypes = {
   listContainerStyle: PropTypes.any,
   optionTextStyle:PropTypes.any,
   selectedOptionTextStyle:PropTypes.any,
-  keyboardShouldPersistTaps: PropTypes.string
+  keyboardShouldPersistTaps: PropTypes.string,
+  onChangeText: PropTypes.any,
+  value: PropTypes.string
 }
 
 ModalFilterPicker.defaultProps = {
