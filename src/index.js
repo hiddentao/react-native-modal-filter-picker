@@ -111,7 +111,7 @@ export default class ModalFilterPicker extends Component {
     } = this.props
 
     const renderedTitle = (!title) ? null : (
-      <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text>
+      <Text style={[styles.titleTextStyle, titleTextStyle]}>{title}</Text>
     )
 
     return (
@@ -123,12 +123,12 @@ export default class ModalFilterPicker extends Component {
       >
         <KeyboardAvoidingView
           behavior="padding"
-          style={overlayStyle || styles.overlay}
+          style={[styles.overlay, overlayStyle]}
           enabled={Platform.OS === 'ios'}
         >
           <View>{renderedTitle}</View>
           {(renderList || this.renderList)()}
-          <View style={cancelContainerStyle || styles.cancelContainer}>
+          <View style={[styles.cancelContainer, cancelContainerStyle]}>
             {(renderCancelButton || this.renderCancelButton)()}
           </View>
         </KeyboardAvoidingView>
@@ -149,7 +149,7 @@ export default class ModalFilterPicker extends Component {
     } = this.props
 
     const filter = (!showFilter) ? null : (
-      <View style={filterTextInputContainerStyle || styles.filterTextInputContainer}>
+      <View style={[styles.filterTextInputContainer, filterTextInputContainerStyle]}>
         <TextInput
           onChangeText={this.onFilterChange}
           autoCorrect={false}
@@ -159,12 +159,12 @@ export default class ModalFilterPicker extends Component {
           underlineColorAndroid={androidUnderlineColor}
           placeholderTextColor={placeholderTextColor}
           placeholder={placeholderText}
-          style={filterTextInputStyle || styles.filterTextInput} />
+          style={[styles.filterTextInput, filterTextInputStyle]} />
       </View>
     )
 
     return (
-      <View style={listContainerStyle || styles.listContainer}>
+      <View style={[styles.listContainer, listContainerStyle]}>
         {filter}
         {this.renderOptionList()}
       </View>
@@ -217,11 +217,11 @@ export default class ModalFilterPicker extends Component {
     const { key, label } = rowData
 
     let style = styles.optionStyle
-    let textStyle = optionTextStyle||styles.optionTextStyle
+    let textStyle = [styles.optionTextStyle, optionTextStyle]
 
     if (key === selectedOption) {
       style = styles.selectedOptionStyle
-      textStyle = selectedOptionTextStyle ||styles.selectedOptionTextStyle
+      textStyle = [styles.selectedOptionTextStyle, selectedOptionTextStyle]
     }
 
     if (renderOption) {
@@ -248,9 +248,9 @@ export default class ModalFilterPicker extends Component {
     return (
       <TouchableOpacity onPress={this.props.onCancel}
         activeOpacity={0.7}
-        style={cancelButtonStyle || styles.cancelButton}
+        style={[styles.cancelButton, cancelButtonStyle]}
       >
-        <Text style={cancelButtonTextStyle || styles.cancelButtonText}>{cancelButtonText}</Text>
+        <Text style={[styles.cancelButtonText, cancelButtonTextStyle]}>{cancelButtonText}</Text>
       </TouchableOpacity>
     )
   }
