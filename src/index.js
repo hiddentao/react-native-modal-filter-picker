@@ -8,7 +8,8 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native'
 
 
@@ -67,6 +68,7 @@ export default class ModalFilterPicker extends Component {
     listContainerStyle: null,
     optionTextStyle:null,
     selectedOptionTextStyle:null,
+    asyncTimeout: 700,
   }
 
   constructor (props, ctx) {
@@ -84,17 +86,29 @@ export default class ModalFilterPicker extends Component {
     const {
       options,
       visible,
+      onFilterChangeAsync,
     } = this.props;
     const oldFirst = options[0] || {};
     const newFirst = newProps.options[0] || {};
+    const enabledAsyncLoading = !!onFilterChangeAsync;
     if ((!visible && newProps.visible)
       || (options.length !== newProps.options.length)
       || (oldFirst.key && oldFirst.key !== newFirst.key)) {
-      this.setState({
-        filter: '',
+      this.setState(prevState => ({
+        filter: enabledAsyncLoading ? prevState.filter : '',
         ds: this.state.ds.cloneWithRows(newProps.options),
-      })
+      }))
     }
+    if (!visible
+      && newProps.visible
+      && onFilterChangeAsync) {
+      onFilterChangeAsync('', newProps.options)
+    }
+
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.filterTimer);
   }
 
   render () {
@@ -145,7 +159,8 @@ export default class ModalFilterPicker extends Component {
       placeholderText,
       placeholderTextColor,
       filterTextInputContainerStyle,
-      filterTextInputStyle
+      filterTextInputStyle,
+      isLoading
     } = this.props
 
     const filter = (!showFilter) ? null : (
@@ -160,6 +175,7 @@ export default class ModalFilterPicker extends Component {
           placeholderTextColor={placeholderTextColor}
           placeholder={placeholderText}
           style={[styles.filterTextInput, filterTextInputStyle]} />
+          {isLoading && <ActivityIndicator style={[styles.filterTextInput, styles.loadingIndicator]} />}
       </View>
     )
 
@@ -230,7 +246,7 @@ export default class ModalFilterPicker extends Component {
       return (
         <TouchableOpacity activeOpacity={0.7}
           style={style}
-          onPress={() => this.props.onSelect(key)}
+          onPress={() => this.props.onSelect(rowData)}
         >
           <Text style={textStyle}>{label}</Text>
         </TouchableOpacity>
@@ -256,20 +272,20 @@ export default class ModalFilterPicker extends Component {
   }
 
   onFilterChange = async (text) => {
-    const { options, asyncGetFilteredItems } = this.props
+    const { options, onFilterChangeAsync, asyncTimeout } = this.props
     const filter = text.toLowerCase();
     let filtered = options;
-    try {
-      filtered = await asyncGetFilteredItems(filter, options);
-    } catch (e) {
-      // apply filter to incoming data
-      filtered = (!filter.length)
-        ? options
-        : options.filter(({ searchKey, label, key }) => (
-          0 <= label.toLowerCase().indexOf(filter) ||
-            (searchKey && 0 <= searchKey.toLowerCase().indexOf(filter))
-        ))
+    if (onFilterChangeAsync) {
+      clearTimeout(this.filterTimer);
+      this.filterTimer = setTimeout(() => onFilterChangeAsync(filter, options), asyncTimeout);
     }
+    // apply filter to incoming data
+    filtered = (!filter.length)
+      ? options
+      : options.filter(({ searchKey, label, key }) => (
+        0 <= label.toLowerCase().indexOf(filter) ||
+          (searchKey && 0 <= searchKey.toLowerCase().indexOf(filter))
+      ))
     this.setState({
       filter: text.toLowerCase(),
       ds: this.state.ds.cloneWithRows(filtered)
