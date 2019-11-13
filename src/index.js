@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {
   Modal,
   View,
-  ListView,
   TouchableOpacity,
   Text,
   TextInput,
@@ -11,7 +10,7 @@ import {
   Platform
 } from 'react-native'
 
-
+import ListView from 'deprecated-react-native-listview'
 import styles from './styles'
 
 
