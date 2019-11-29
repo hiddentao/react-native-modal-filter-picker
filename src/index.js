@@ -9,12 +9,85 @@ import {
   KeyboardAvoidingView,
   Platform,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 
 import styles from './styles';
 
-
+const numOrString = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+]);
 export default class ModalFilterPicker extends Component {
+  static propTypes = {
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: numOrString,
+        searchKey: numOrString,
+        label: numOrString,
+      }),
+    ),
+    onSelect: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    placeholderText: PropTypes.string,
+    placeholderTextColor: PropTypes.string,
+    androidUnderlineColor: PropTypes.string,
+    cancelButtonText: PropTypes.string,
+    title: PropTypes.string,
+    noResultsText: PropTypes.string,
+    visible: PropTypes.bool,
+    showFilter: PropTypes.bool,
+    modal: PropTypes.object,
+    selectedOption: PropTypes.string,
+    renderOption: PropTypes.func,
+    renderCancelButton: PropTypes.func,
+    renderList: PropTypes.func,
+    flatListViewProps: PropTypes.object,
+    filterTextInputContainerStyle: PropTypes.any,
+    filterTextInputStyle: PropTypes.any,
+    cancelContainerStyle: PropTypes.any,
+    cancelButtonStyle: PropTypes.any,
+    cancelButtonTextStyle: PropTypes.any,
+    titleTextStyle: PropTypes.any,
+    overlayStyle: PropTypes.any,
+    listContainerStyle: PropTypes.any,
+    optionTextStyle: PropTypes.any,
+    selectedOptionTextStyle: PropTypes.any,
+    keyboardShouldPersistTaps: PropTypes.string,
+    autoFocus: PropTypes.bool,
+    keyExtractor: PropTypes.func,
+    asyncTimeout: PropTypes.number,
+    onFilterChangeAsync: PropTypes.func,
+    isLoading: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    options: [],
+    filterTextInputContainerStyle: null,
+    filterTextInputStyle: null,
+    cancelContainerStyle: null,
+    cancelButtonStyle: null,
+    cancelButtonTextStyle: null,
+    titleTextStyle: null,
+    overlayStyle: null,
+    listContainerStyle: null,
+    optionTextStyle: null,
+    selectedOptionTextStyle: null,
+    placeholderText: 'Filter...',
+    placeholderTextColor: '#ccc',
+    androidUnderlineColor: 'rgba(0,0,0,0)',
+    cancelButtonText: 'Cancel',
+    noResultsText: 'No matches',
+    visible: true,
+    showFilter: true,
+    keyboardShouldPersistTaps: 'never',
+    autoFocus: false,
+    keyExtractor: (item, index) => index,
+    asyncTimeout: 700,
+    onFilterChangeAsync: null,
+    isLoading: false,
+  }
+
   constructor(props, ctx) {
     super(props, ctx);
 
@@ -26,15 +99,30 @@ export default class ModalFilterPicker extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      visible,
       options,
+      visible,
+      onFilterChangeAsync,
     } = this.props;
-    if ((!prevProps.visible && visible) || (prevProps.options !== options)) {
-      this.setState({
-        filter: '',
+    const oldFirst = prevProps.options[0] || {};
+    const newFirst = options[0] || {};
+    const enabledAsyncLoading = !!onFilterChangeAsync;
+    if ((!prevProps.visible && visible)
+      || (prevProps.options.length !== options.length)
+      || (oldFirst.key && oldFirst.key !== newFirst.key)) {
+      this.setState((prevState) => ({
+        filter: enabledAsyncLoading ? prevState.filter : '',
         ds: options,
-      });
+      }));
     }
+    if (!prevProps.visible
+      && visible
+      && onFilterChangeAsync) {
+      onFilterChangeAsync('', options);
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.filterTimer);
   }
 
   render() {
@@ -51,7 +139,7 @@ export default class ModalFilterPicker extends Component {
     } = this.props;
 
     const renderedTitle = (!title) ? null : (
-      <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text>
+      <Text style={[styles.titleTextStyle, titleTextStyle]}>{title}</Text>
     );
 
     return (
@@ -63,12 +151,12 @@ export default class ModalFilterPicker extends Component {
       >
         <KeyboardAvoidingView
           behavior="padding"
-          style={overlayStyle || styles.overlay}
+          style={[styles.overlay, overlayStyle]}
           enabled={Platform.OS === 'ios'}
         >
           <View>{renderedTitle}</View>
           {(renderList || this.renderList)()}
-          <View style={cancelContainerStyle || styles.cancelContainer}>
+          <View style={[styles.cancelContainer, cancelContainerStyle]}>
             {(renderCancelButton || this.renderCancelButton)()}
           </View>
         </KeyboardAvoidingView>
@@ -86,11 +174,12 @@ export default class ModalFilterPicker extends Component {
       placeholderTextColor,
       filterTextInputContainerStyle,
       filterTextInputStyle,
+      isLoading,
     } = this.props;
     const { filter } = this.state;
 
     const filterInput = (!showFilter) ? null : (
-      <View style={filterTextInputContainerStyle || styles.filterTextInputContainer}>
+      <View style={[styles.filterTextInputContainer, filterTextInputContainerStyle]}>
         <TextInput
           onChangeText={this.onFilterChange}
           autoCorrect={false}
@@ -100,14 +189,15 @@ export default class ModalFilterPicker extends Component {
           underlineColorAndroid={androidUnderlineColor}
           placeholderTextColor={placeholderTextColor}
           placeholder={placeholderText}
-          style={filterTextInputStyle || styles.filterTextInput}
           value={filter}
+          style={[styles.filterTextInput, filterTextInputStyle]}
         />
+        {isLoading && <ActivityIndicator style={[styles.filterTextInput, styles.loadingIndicator]} />}
       </View>
     );
 
     return (
-      <View style={listContainerStyle || styles.listContainer}>
+      <View style={[styles.listContainer, listContainerStyle]}>
         {filterInput}
         {this.renderOptionList()}
       </View>
@@ -163,16 +253,17 @@ export default class ModalFilterPicker extends Component {
     const { key, label } = item;
 
     let style = styles.optionStyle;
-    let textStyle = optionTextStyle || styles.optionTextStyle;
+    let textStyle = [styles.optionTextStyle, optionTextStyle];
 
     if (key === selectedOption) {
       style = styles.selectedOptionStyle;
-      textStyle = selectedOptionTextStyle || styles.selectedOptionTextStyle;
+      textStyle = [styles.selectedOptionTextStyle, selectedOptionTextStyle];
     }
 
     if (renderOption) {
       return renderOption(item, key === selectedOption);
     }
+
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -196,75 +287,31 @@ export default class ModalFilterPicker extends Component {
       <TouchableOpacity
         onPress={onCancel}
         activeOpacity={0.7}
-        style={cancelButtonStyle || styles.cancelButton}
+        style={[styles.cancelButton, cancelButtonStyle]}
       >
-        <Text style={cancelButtonTextStyle || styles.cancelButtonText}>{cancelButtonText}</Text>
+        <Text style={[styles.cancelButtonText, cancelButtonTextStyle]}>{cancelButtonText}</Text>
       </TouchableOpacity>
     );
   };
 
-  onFilterChange = (text) => {
-    const { options } = this.props;
-
+  onFilterChange = async (text) => {
+    const { options, onFilterChangeAsync, asyncTimeout } = this.props;
     const filter = text.toLowerCase();
-
+    let filtered = options;
+    if (onFilterChangeAsync) {
+      clearTimeout(this.filterTimer);
+      this.filterTimer = setTimeout(() => onFilterChangeAsync(filter, options), asyncTimeout);
+    }
     // apply filter to incoming data
-    const filtered = (!filter.length)
+    filtered = (!filter.length)
       ? options
       : options.filter(({ searchKey, label }) => (
         label.toLowerCase().indexOf(filter) >= 0
           || (searchKey && searchKey.toLowerCase().indexOf(filter) >= 0)
       ));
-
     this.setState({
       filter: text,
       ds: filtered,
     });
   }
 }
-
-ModalFilterPicker.propTypes = {
-  options: PropTypes.array.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  placeholderText: PropTypes.string,
-  placeholderTextColor: PropTypes.string,
-  androidUnderlineColor: PropTypes.string,
-  cancelButtonText: PropTypes.string,
-  title: PropTypes.string,
-  noResultsText: PropTypes.string,
-  visible: PropTypes.bool,
-  showFilter: PropTypes.bool,
-  modal: PropTypes.object,
-  selectedOption: PropTypes.string,
-  renderOption: PropTypes.func,
-  renderCancelButton: PropTypes.func,
-  renderList: PropTypes.func,
-  flatListViewProps: PropTypes.object,
-  filterTextInputContainerStyle: PropTypes.any,
-  filterTextInputStyle: PropTypes.any,
-  cancelContainerStyle: PropTypes.any,
-  cancelButtonStyle: PropTypes.any,
-  cancelButtonTextStyle: PropTypes.any,
-  titleTextStyle: PropTypes.any,
-  overlayStyle: PropTypes.any,
-  listContainerStyle: PropTypes.any,
-  optionTextStyle: PropTypes.any,
-  selectedOptionTextStyle: PropTypes.any,
-  keyboardShouldPersistTaps: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  keyExtractor: PropTypes.func,
-};
-
-ModalFilterPicker.defaultProps = {
-  placeholderText: 'Filter...',
-  placeholderTextColor: '#ccc',
-  androidUnderlineColor: 'rgba(0,0,0,0)',
-  cancelButtonText: 'Cancel',
-  noResultsText: 'No matches',
-  visible: true,
-  showFilter: true,
-  keyboardShouldPersistTaps: 'never',
-  autoFocus: false,
-  keyExtractor: (item, index) => index,
-};
