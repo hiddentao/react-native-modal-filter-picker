@@ -89,8 +89,7 @@ export default class ModalFilterPicker extends Component {
       placeholderText,
       placeholderTextColor,
       filterTextInputContainerStyle,
-      filterTextInputStyle,
-      autoFocus
+      filterTextInputStyle
     } = this.props
 
     const filter = !showFilter ? null : (
