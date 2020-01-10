@@ -10,7 +10,8 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  SafeAreaView
 } from 'react-native'
 
 import styles from "./styles"
@@ -70,11 +71,13 @@ export default class ModalFilterPicker extends Component {
           style={overlayStyle || styles.overlay}
           enabled={Platform.OS === 'ios'}
         >
+          <SafeAreaView style={{ flex: 1 }}>
           <View>{renderedTitle}</View>
           {(renderList || this.renderList)()}
           <View style={cancelContainerStyle || styles.cancelContainer}>
             {(renderCancelButton || this.renderCancelButton)()}
           </View>
+          </SafeAreaView>
         </KeyboardAvoidingView>
       </Modal>
     )
