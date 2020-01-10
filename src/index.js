@@ -39,7 +39,7 @@ export default class ModalFilterPicker extends Component {
     }
   }
 
-  onFilterChange(text) {
+  onFilterChange = (text) => {
     const { options } = this.props
 
     const filter = text.toLowerCase()
@@ -59,7 +59,7 @@ export default class ModalFilterPicker extends Component {
     })
   }
 
-  renderOption({ item }) {
+  renderOption = ({ item }) => {
     const {
       selectedOption,
       renderOption,
@@ -91,7 +91,7 @@ export default class ModalFilterPicker extends Component {
     )
   }
 
-  renderList() {
+  renderList = () => {
     const {
       showFilter,
       listContainerStyle,
@@ -129,7 +129,7 @@ export default class ModalFilterPicker extends Component {
     )
   }
 
-  renderOptionList() {
+  renderOptionList = () => {
     const { noResultsText, flatListViewProps, keyExtractor } = this.props
 
     const { ds } = this.state
@@ -158,7 +158,7 @@ export default class ModalFilterPicker extends Component {
     )
   }
 
-  renderCancelButton() {
+  renderCancelButton = () => {
     const {
       cancelButtonStyle,
       cancelButtonTextStyle,
