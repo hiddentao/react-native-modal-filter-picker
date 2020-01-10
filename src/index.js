@@ -39,55 +39,38 @@ export default class ModalFilterPicker extends Component {
     }
   }
 
-  onFilterChange = (text) => {
-    const { options } = this.props
-
-    const filter = text.toLowerCase()
-
-    // apply filter to incoming data
-    const filtered = !filter.length
-      ? options
-      : options.filter(
-          ({ searchKey, label }) =>
-            label.toLowerCase().indexOf(filter) >= 0 ||
-            (searchKey && searchKey.toLowerCase().indexOf(filter) >= 0)
-        )
-    /* eslint react/no-unused-state:0 */
-    this.setState({
-      filter: text.toLowerCase(),
-      ds: filtered
-    })
-  }
-
-  renderOption = ({ item }) => {
+  render() {
     const {
-      selectedOption,
-      renderOption,
-      optionTextStyle,
-      selectedOptionTextStyle
+      title,
+      titleTextStyle,
+      overlayStyle,
+      cancelContainerStyle,
+      renderList,
+      renderCancelButton,
+      modal,
+      visible,
+      onCancel
     } = this.props
 
-    const { key, label } = item
+    const renderedTitle = !title ? null : (
+      <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text>
+    )
 
-    let style = styles.optionStyle
-    let textStyle = optionTextStyle || styles.optionTextStyle
-
-    if (key === selectedOption) {
-      style = styles.selectedOptionStyle
-      textStyle = selectedOptionTextStyle || styles.selectedOptionTextStyle
-    }
-
-    if (renderOption) {
-      return renderOption(item, key === selectedOption)
-    }
     return (
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={style}
-        onPress={() => this.props.onSelect(item)}
+      <Modal
+        onRequestClose={onCancel}
+        {...modal}
+        visible={visible}
+        supportedOrientations={["portrait", "landscape"]}
       >
-        <Text style={textStyle}>{label}</Text>
-      </TouchableOpacity>
+        <View style={overlayStyle || styles.overlay}>
+          {renderedTitle}
+          {(renderList || this.renderList)()}
+          <View style={cancelContainerStyle || styles.cancelContainer}>
+            {(renderCancelButton || this.renderCancelButton)()}
+          </View>
+        </View>
+      </Modal>
     )
   }
 
@@ -158,6 +141,38 @@ export default class ModalFilterPicker extends Component {
     )
   }
 
+  renderOption = ({ item }) => {
+    const {
+      selectedOption,
+      renderOption,
+      optionTextStyle,
+      selectedOptionTextStyle
+    } = this.props
+
+    const { key, label } = item
+
+    let style = styles.optionStyle
+    let textStyle = optionTextStyle || styles.optionTextStyle
+
+    if (key === selectedOption) {
+      style = styles.selectedOptionStyle
+      textStyle = selectedOptionTextStyle || styles.selectedOptionTextStyle
+    }
+
+    if (renderOption) {
+      return renderOption(item, key === selectedOption)
+    }
+    return (
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={style}
+        onPress={() => this.props.onSelect(item)}
+      >
+        <Text style={textStyle}>{label}</Text>
+      </TouchableOpacity>
+    )
+  }
+
   renderCancelButton = () => {
     const {
       cancelButtonStyle,
@@ -178,39 +193,24 @@ export default class ModalFilterPicker extends Component {
     )
   }
 
-  render() {
-    const {
-      title,
-      titleTextStyle,
-      overlayStyle,
-      cancelContainerStyle,
-      renderList,
-      renderCancelButton,
-      modal,
-      visible,
-      onCancel
-    } = this.props
+  onFilterChange = (text) => {
+    const { options } = this.props
 
-    const renderedTitle = !title ? null : (
-      <Text style={titleTextStyle || styles.titleTextStyle}>{title}</Text>
-    )
+    const filter = text.toLowerCase()
 
-    return (
-      <Modal
-        onRequestClose={onCancel}
-        {...modal}
-        visible={visible}
-        supportedOrientations={["portrait", "landscape"]}
-      >
-        <View style={overlayStyle || styles.overlay}>
-          {renderedTitle}
-          {(renderList || this.renderList)()}
-          <View style={cancelContainerStyle || styles.cancelContainer}>
-            {(renderCancelButton || this.renderCancelButton)()}
-          </View>
-        </View>
-      </Modal>
-    )
+    // apply filter to incoming data
+    const filtered = !filter.length
+      ? options
+      : options.filter(
+          ({ searchKey, label }) =>
+            label.toLowerCase().indexOf(filter) >= 0 ||
+            (searchKey && searchKey.toLowerCase().indexOf(filter) >= 0)
+        )
+    /* eslint react/no-unused-state:0 */
+    this.setState({
+      filter: text.toLowerCase(),
+      ds: filtered
+    })
   }
 }
 
