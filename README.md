@@ -1,6 +1,6 @@
 # react-native-modal-filter-picker
 
-[![npm](https://img.shields.io/npm/v/react-native-modal-filter-picker.svg?maxAge=2592000)](https://www.npmjs.com/package/react-native-modal-filter-picker)
+[![npm](https://img.shields.io/npm/dt/react-native-modal-filter-picker.svg)](https://www.npmjs.com/package/react-native-modal-filter-picker)
 [![Join the chat at https://discord.gg/bYt4tWB](https://img.shields.io/badge/discord-join%20chat-738bd7.svg?style=flat-square)](https://discord.gg/bYt4tWB)
 [![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/hiddentao)
 
@@ -12,7 +12,7 @@ Features:
 
 * Cross-platform (iOS, Android)
 * Default styling works well
-* Extensively customizable styling and rendering
+* Extensively customisable styling and rendering
 * Built-in search filter for long lists
 * Uses React Native `ListView` for lazy-loading and high performance
 * Compatible with React Native 0.40+
@@ -127,7 +127,8 @@ The following functionality props can be passed to the component:
 | `renderOption` | `function (option, isSelected) {}` | `null` | Custom option renderer |
 | `renderList` | `function () {}` | `null` | Custom option list renderer |
 | `renderCancelButton` | `function () {}` | `null` | Custom cancel button renderer |
-| `autoFocus` | `Boolean` | `false` | If true, focuses the input on componentDidMount. |
+| `keyboardShouldPersistTaps` | `never`/`always`/`handle` | `never` | Determines when the keyboard should stay visible after a tap. If `never`, tapping outside of the focused text input when the keyboard is up dismisses the keyboard. When this happens, children won't receive the tap. If `always`, the keyboard will not dismiss automatically, and the scroll view will not catch taps, but children of the scroll view can catch taps. If `handled`, the keyboard will not dismiss automatically when the tap was handled by a children, (or captured by an ancestor). |
+| `autoFocus` | `Boolean` | `false` | If true, focuses the input on `componentDidMount()`. |
 
 In addition, the following styling props (each of which must be an `Object` consisting of styles) can be passed in:
 
@@ -141,6 +142,7 @@ In addition, the following styling props (each of which must be an `Object` cons
 | `cancelButtonStyle` | Style for the cancel button button face |
 | `cancelButtonTextStyle` | Style for the cancel button text |
 | `titleTextStyle` | Style for the title text |
+| `optionTextStyle` | Style for the option text |
 
 ## Advanced filtering
 

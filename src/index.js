@@ -1,15 +1,17 @@
 /* eslint import/extensions:0 */
 /* eslint import/no-unresolved:0 */
-import React, { Component } from "react"
-import PropTypes from "prop-types"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   Modal,
   View,
   FlatList,
   TouchableOpacity,
   Text,
-  TextInput
-} from "react-native"
+  TextInput,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native'
 
 import styles from "./styles"
 
@@ -61,15 +63,19 @@ export default class ModalFilterPicker extends Component {
         onRequestClose={onCancel}
         {...modal}
         visible={visible}
-        supportedOrientations={["portrait", "landscape"]}
+        supportedOrientations={['portrait', 'landscape']}
       >
-        <View style={overlayStyle || styles.overlay}>
-          {renderedTitle}
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={overlayStyle || styles.overlay}
+          enabled={Platform.OS === 'ios'}
+        >
+          <View>{renderedTitle}</View>
           {(renderList || this.renderList)()}
           <View style={cancelContainerStyle || styles.cancelContainer}>
             {(renderCancelButton || this.renderCancelButton)()}
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     )
   }
@@ -77,6 +83,7 @@ export default class ModalFilterPicker extends Component {
   renderList = () => {
     const {
       showFilter,
+      autoFocus,
       listContainerStyle,
       androidUnderlineColor,
       placeholderText,
@@ -93,7 +100,7 @@ export default class ModalFilterPicker extends Component {
         <TextInput
           onChangeText={this.onFilterChange}
           autoCorrect={false}
-          blurOnSubmit
+          blurOnSubmit={true}
           autoFocus={autoFocus}
           autoCapitalize="none"
           underlineColorAndroid={androidUnderlineColor}
@@ -113,7 +120,12 @@ export default class ModalFilterPicker extends Component {
   }
 
   renderOptionList = () => {
-    const { noResultsText, flatListViewProps, keyExtractor } = this.props
+    const {
+      noResultsText,
+      flatListViewProps,
+      keyExtractor,
+      keyboardShouldPersistTaps
+    } = this.props
 
     const { ds } = this.state
 
@@ -137,6 +149,7 @@ export default class ModalFilterPicker extends Component {
         {...flatListViewProps}
         data={ds}
         renderItem={this.renderOption}
+        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
       />
     )
   }
@@ -242,10 +255,11 @@ ModalFilterPicker.propTypes = {
   titleTextStyle: PropTypes.any,
   overlayStyle: PropTypes.any,
   listContainerStyle: PropTypes.any,
-  optionTextStyle: PropTypes.any,
-  selectedOptionTextStyle: PropTypes.any,
+  optionTextStyle:PropTypes.any,
+  selectedOptionTextStyle:PropTypes.any,
   keyExtractor: PropTypes.any,
-  autoFocus: PropTypes.any
+  autoFocus: PropTypes.any,
+  keyboardShouldPersistTaps: PropTypes.string
 }
 
 ModalFilterPicker.defaultProps = {
@@ -255,5 +269,6 @@ ModalFilterPicker.defaultProps = {
   cancelButtonText: "Cancel",
   noResultsText: "No matches",
   visible: true,
-  showFilter: true
+  showFilter: true,
+  keyboardShouldPersistTaps: 'never'
 }
