@@ -135,7 +135,7 @@ export default class ModalFilterPicker extends Component {
       return (
         <FlatList
           data={ds}
-          keyExtractor={keyExtractor || this.keyExtractor}
+          keyExtractor={keyExtractor || this.constructor.keyExtractor}
           {...flatListViewProps}
           renderItem={() => (
             <View style={styles.noResults}>
