@@ -124,7 +124,7 @@ export default class ModalFilterPicker extends Component {
   renderOptionList = () => {
     const {
       noResultsText,
-      flatListViewProps,
+      flatListProps,
       keyExtractor,
       keyboardShouldPersistTaps
     } = this.props
@@ -136,7 +136,7 @@ export default class ModalFilterPicker extends Component {
         <FlatList
           data={ds}
           keyExtractor={keyExtractor || this.constructor.keyExtractor}
-          {...flatListViewProps}
+          {...flatListProps}
           renderItem={() => (
             <View style={styles.noResults}>
               <Text style={styles.noResultsText}>{noResultsText}</Text>
@@ -148,7 +148,7 @@ export default class ModalFilterPicker extends Component {
     return (
       <FlatList
         keyExtractor={keyExtractor || this.constructor.keyExtractor}
-        {...flatListViewProps}
+        {...flatListProps}
         data={ds}
         renderItem={this.renderOption}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
@@ -248,7 +248,7 @@ ModalFilterPicker.propTypes = {
   renderOption: PropTypes.func,
   renderCancelButton: PropTypes.func,
   renderList: PropTypes.func,
-  flatListViewProps: PropTypes.object,
+  flatListProps: PropTypes.object,
   filterTextInputContainerStyle: PropTypes.any,
   filterTextInputStyle: PropTypes.any,
   cancelContainerStyle: PropTypes.any,

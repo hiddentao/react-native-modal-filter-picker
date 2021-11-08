@@ -14,7 +14,7 @@ Features:
 * Default styling works well
 * Extensively customisable styling and rendering
 * Built-in search filter for long lists
-* Uses React Native `ListView` for lazy-loading and high performance
+* Uses React Native `FlatList` for lazy-loading and high performance
 * Compatible with React Native 0.40+
 * Successfully used in production apps
 
@@ -123,7 +123,7 @@ The following functionality props can be passed to the component:
 | `showFilter` | `Boolean` | `true` | Whether to show filter text field field or not |
 | `modal` | `Object` | `null` | Options to pass to native `Modal` component |
 | `selectedOption` | `String` | `null` | The currently selected option, to visually differentiate it from others |
-| `listViewProps` | `Object` | `null` | Properties to pass to the rendered `ListView` |
+| `flatListProps` | `Object` | `null` | Properties to pass to the rendered `FlatList` |
 | `renderOption` | `function (option, isSelected) {}` | `null` | Custom option renderer |
 | `renderList` | `function () {}` | `null` | Custom option list renderer |
 | `renderCancelButton` | `function () {}` | `null` | Custom cancel button renderer |
